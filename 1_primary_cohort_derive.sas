@@ -47,6 +47,7 @@ libname lout slibref=out server=server;
 libname lwork slibref=work server=server;
 libname lraw slibref=raw server=server;
 libname lder slibref=der server=server;
+libname lana slibref=ana server=server;
 
 
 

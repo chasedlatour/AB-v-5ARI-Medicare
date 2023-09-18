@@ -92,9 +92,8 @@ the unweighted and weighted versions of the same study population.
 This is just included for data exploration of the total study population.
 ************************************************************************************************/
 
-*Output table 1;
-
 proc sort data=ana.primary_cohort out=cohort_primary; by bene_id indexdate; run;
+*Output table 1;
 %table1(inds = cohort_primary, maxLevels = 5, colVar = ab, rowVars = age cal_year rti_race
 			bl_aur bl_chdz bl_heartfail bl_hf_hosp bl_chronickid bl_copd bl_hchl
 			bl_mi bl_strk bl_pcip bl_cabg bl_tobacco 
@@ -108,7 +107,7 @@ proc sort data=ana.primary_cohort out=cohort_primary; by bene_id indexdate; run;
 			/*frailty*/ bl_arthritis bl_bladder bl_braininjury bl_decub bl_dement
 			bl_hf bl_hyposhock bl_lipid bl_paralysis bl_pd bl_podiatric
 			bl_psych bl_screening bl_vertigo bl_weakness bl_ambulance bl_hospBed
-			bl_outpatientvisit bl_oxygen bl_wheelchair, contStat=median, smd_cat=overall);
+			bl_outpatientvisit bl_oxygen bl_wheelchair, contStat=median, smd_cat=level);
 
 ods noptitle; ods escapechar='~';Title ;
 ods rtf file="&OutPath./Table 1: Distribution of Study Baseline Characteristics_&logdate..rtf" style=vpmin startpage=never ;
@@ -232,7 +231,7 @@ proc logistic data=cohort_primary covout outest=primary_ps_pretrim noprint;
 				bl_anycoagcat bl_opioidcat bl_nicotine_varen bl_statins bl_dpp bl_glp bl_lainsulin_cat bl_sainsulin_cat 
 				bl_sglt bl_sulfonylurea bl_tzd bl_obesity rti_race bl_arthritis bl_bladder bl_braininjury bl_decub bl_dement
 				bl_hyposhock bl_lipid bl_paralysis bl_pd bl_podiatric bl_psych bl_screening bl_vertigo bl_weakness bl_ambulance 
-				bl_hospBed bl_rehab bl_oxygen bl_wheelchair
+				bl_hospBed bl_rehab bl_oxygen bl_wheelchair;
 run;
 
 
@@ -376,11 +375,12 @@ proc sort data=ps_trim; by bene_id indexdate; run;
 			bl_anycoagcat bl_opioidcat bl_nicotine_varen bl_statins bl_diab
 			/*antidiabetics*/ bl_dpp bl_glp bl_lainsulin_cat bl_sainsulin_cat bl_sglt
 			bl_sulfonylurea bl_tzd
-			bl_athero bl_obesity
+			bl_athero bl_obesity 
+			/*ADDED*/ cstshr dual bl_1yrlb_hf_1in_2out
 			/*frailty*/ bl_arthritis bl_bladder bl_braininjury bl_decub bl_dement
 			bl_hf bl_hyposhock bl_lipid bl_paralysis bl_pd bl_podiatric
 			bl_psych bl_screening bl_vertigo bl_weakness bl_ambulance bl_hospBed
-			bl_rehab bl_oxygen bl_wheelchair, contStat=median, smd_cat=overall);
+			bl_rehab bl_oxygen bl_wheelchair, contStat=median, smd_cat=level);
 
 ods noptitle; ods escapechar='~';Title ;
 ods rtf file="&OutPath./Table 1: Distribution of Study Baseline Characteristics_Trimmed Population_&logdate..rtf" style=vpmin startpage=never ;
@@ -410,10 +410,11 @@ proc sort data=cohort_weights2; by bene_id indexdate; run;
 			/*antidiabetics*/ bl_dpp bl_glp bl_lainsulin_cat bl_sainsulin_cat bl_sglt
 			bl_sulfonylurea bl_tzd
 			bl_athero bl_obesity
+			/*ADDED*/ cstshr dual bl_1yrlb_hf_1in_2out
 			/*frailty*/ bl_arthritis bl_bladder bl_braininjury bl_decub bl_dement
 			bl_hf bl_hyposhock bl_lipid bl_paralysis bl_pd bl_podiatric
 			bl_psych bl_screening bl_vertigo bl_weakness bl_ambulance bl_hospBed
-			bl_rehab bl_oxygen bl_wheelchair, wgtVar = iptw, contStat=median, smd_cat=overall);
+			bl_rehab bl_oxygen bl_wheelchair, wgtVar = iptw, contStat=median, smd_cat=level);
 
 ods noptitle; ods escapechar='~';Title ;
 ods rtf file="&OutPath./Table 1: Distribution of Study Baseline Characteristics with IPTW_Trimmed Population_&logdate..rtf" style=vpmin startpage=never ;
